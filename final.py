@@ -145,8 +145,8 @@ def main():
             #st.metric("Plastic produced today", f"{plastic_produced:,.0f} kg", delta=f"≈ {plastic_to_cars:,.0f} cars")
             #st.metric("Plastic entered ocean today", f"{ocean_plastic:,.0f} kg", delta=f"≈ {ocean_to_statues:,.0f} Statues of Liberty")
             #st.metric("Microplastic ingested today", f"{microplastic:,.0f} mg", delta=f"≈ {credit_card_equiv:.0f}% credit card in a week")
-            st.metric("Forest lost today", f"{acres_lost:,.0f} acres", help=f"≈ {k_format(acres_to_football)} football fields")
-            st.metric("CO₂ emitted today", f"{co2_emitted:,.0f} t CO₂", help=f"≈ {k_format(pyramids)} Great Pyramids of Giza")
+            st.metric("Forest lost today", f"{acres_lost:,.0f} acres", delta=f"≈ {k_format(acres_to_football)} football fields")
+            st.metric("CO₂ emitted today", f"{co2_emitted:,.0f} t CO₂", delta=f"≈ {k_format(pyramids)} Great Pyramids of Giza")
             st.metric("Land lost today", f"{ha_lost:,.0f} ha", delta=f"~{ha_to_washdc:.0f}% Washington DC per year")
 
         time.sleep(UPDATE_INTERVAL_SEC)
