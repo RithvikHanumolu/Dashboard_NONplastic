@@ -150,21 +150,7 @@ def main():
             #st.metric("Land lost today", f"{ha_lost:,.0f} ha", delta=f"~{ha_to_washdc:.0f}% Washington DC per year")
 
         def custom_metric(label, value, delta, symbol="≈", color="gray"):
-            st.markdown(f"""
-                <div style="
-                    background-color:#f0f2f6;
-                    padding: 1rem;
-                    border-radius: 0.5rem;
-                    width: 280px;
-                    margin-bottom: 1rem;
-                    display: inline-block;
-                    font-family: 'Segoe UI', sans-serif;
-                ">
-                    <div style="color: gray; font-size: 0.85rem;">{label}</div>
-                    <div style="font-size: 1.5rem; font-weight: bold; margin: 0.25rem 0;">{value}</div>
-                    <div style="font-size: 0.85rem; color: {color};">{symbol} {delta}</div>
-                </div>
-            """, unsafe_allow_html=True)
+            print(",")
 
         with placeholder.container():
             custom_metric("Plastic produced today", f"{plastic_produced:,.0f} kg", f"{plastic_to_cars:,.0f} cars")
