@@ -141,13 +141,39 @@ def main():
             #st.metric("Forest lost today (acres)", f"{acres_lost:,.0f} acres", delta=f"~{k_format(acres_to_football)} football fields")
             #st.metric("CO₂ emitted today (metric tons)", f"{co2_emitted:,.0f} t CO₂", delta=f"~{k_format(pyramids)} Great Pyramids of Giza")
 
-        with placeholder.container():
+        #with placeholder.container():
             #st.metric("Plastic produced today", f"{plastic_produced:,.0f} kg", delta=f"≈ {plastic_to_cars:,.0f} cars")
             #st.metric("Plastic entered ocean today", f"{ocean_plastic:,.0f} kg", delta=f"≈ {ocean_to_statues:,.0f} Statues of Liberty")
             #st.metric("Microplastic ingested today", f"{microplastic:,.0f} mg", delta=f"≈ {credit_card_equiv:.0f}% credit card in a week")
-            st.metric("Forest lost today", f"{acres_lost:,.0f} acres", delta=f"≈ {k_format(acres_to_football)} football fields")
-            st.metric("CO₂ emitted today", f"{co2_emitted:,.0f} t CO₂", delta=f"≈ {k_format(pyramids)} Great Pyramids of Giza")
-            st.metric("Land lost today", f"{ha_lost:,.0f} ha", delta=f"~{ha_to_washdc:.0f}% Washington DC per year")
+            #st.metric("Forest lost today", f"{acres_lost:,.0f} acres", delta=f"≈ {k_format(acres_to_football)} football fields")
+            #st.metric("CO₂ emitted today", f"{co2_emitted:,.0f} t CO₂", delta=f"≈ {k_format(pyramids)} Great Pyramids of Giza")
+            #st.metric("Land lost today", f"{ha_lost:,.0f} ha", delta=f"~{ha_to_washdc:.0f}% Washington DC per year")
+
+        def custom_metric(label, value, delta, symbol="≈", color="gray"):
+            st.markdown(f"""
+                <div style="
+                    background-color:#f0f2f6;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
+                    width: 280px;
+                    margin-bottom: 1rem;
+                    display: inline-block;
+                    font-family: 'Segoe UI', sans-serif;
+                ">
+                    <div style="color: gray; font-size: 0.85rem;">{label}</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; margin: 0.25rem 0;">{value}</div>
+                    <div style="font-size: 0.85rem; color: {color};">{symbol} {delta}</div>
+                </div>
+            """, unsafe_allow_html=True)
+
+        with placeholder.container():
+            custom_metric("Plastic produced today", f"{plastic_produced:,.0f} kg", f"{plastic_to_cars:,.0f} cars")
+            custom_metric("Plastic entered ocean today", f"{ocean_plastic:,.0f} kg", f"{ocean_to_statues:,.0f} Statues of Liberty")
+            custom_metric("Microplastic ingested today", f"{microplastic:,.0f} mg", f"{credit_card_equiv:.0f}% of a credit card in a week")
+            # custom_metric("Forest lost today (acres)", f"{acres_lost:,.0f} acres", f"{k_format(acres_to_football)} football fields")
+            # custom_metric("CO₂ emitted today", f"{co2_emitted:,.0f} t CO₂", f"{k_format(pyramids)} Great Pyramids of Giza")
+            # custom_metric("Land lost today (hectares)", f"{ha_lost:,.0f} ha", f"{ha_to_washdc:.0f}% Washington DC/year")
+
 
         time.sleep(UPDATE_INTERVAL_SEC)
 
