@@ -96,7 +96,8 @@ def emissions_so_far(now: datetime, total_today: float) -> float:
 # --- Streamlit app main -----------------------------------------------------
 
 def main():
-    st.title("Environmental Dashboard — Live Statistics")
+    # Make the title bigger
+    st.markdown("<h1 style='font-size: 3em;'>Environmental Dashboard — Live Statistics</h1>", unsafe_allow_html=True)
 
     @st.cache_data(ttl=SECONDS_PER_DAY)
     def get_emissions_total():
@@ -139,44 +140,50 @@ def main():
             # Forest lost today
             st.metric(
                 "Forest lost today",
-                f"{acres_lost:,.0f} acres"
+                f"<span style='font-size: 2em;'>{acres_lost:,.0f} acres</span>",
+                unsafe_allow_html=True
             )
-            st.markdown(f"≈ {k_format(acres_to_football)} football fields")
+            st.markdown(f'<span style="color: green; font-size: 1.2em;">≈{k_format(acres_to_football)} football fields</span>', unsafe_allow_html=True)
 
             # CO₂ emitted today
             st.metric(
                 "CO₂ emitted today",
-                f"{co2_emitted:,.0f} t CO₂"
+                f"<span style='font-size: 2em;'>{co2_emitted:,.0f} t CO₂</span>",
+                unsafe_allow_html=True
             )
-            st.markdown(f"≈ {k_format(pyramids)} Great Pyramids of Giza")
+            st.markdown(f'<span style="color: green; font-size: 1.2em;">≈{k_format(pyramids)} Great Pyramids of Giza</span>', unsafe_allow_html=True)
 
             # Land lost today
             st.metric(
                 "Land lost today",
-                f"{ha_lost:,.0f} ha"
+                f"<span style='font-size: 2em;'>{ha_lost:,.0f} ha</span>",
+                unsafe_allow_html=True
             )
-            st.markdown(f"≈ {ha_to_washdc:.0f}% Washington DC per year")
+            st.markdown(f'<span style="color: green; font-size: 1.2em;">≈{ha_to_washdc:.0f}% Washington DC per year</span>', unsafe_allow_html=True)
 
             # Plastic produced today
             st.metric(
                 "Plastic produced today",
-                f"{plastic_produced:,.0f} kg"
+                f"<span style='font-size: 2em;'>{plastic_produced:,.0f} kg</span>",
+                unsafe_allow_html=True
             )
-            st.markdown(f"≈ {plastic_to_cars:,.0f} cars")
+            st.markdown(f"<span style='color: green; font-size: 1.2em;'>≈{plastic_to_cars:,.0f} cars</span>", unsafe_allow_html=True)
 
             # Plastic entered ocean today
             st.metric(
                 "Plastic entered ocean today",
-                f"{ocean_plastic:,.0f} kg"
+                f"<span style='font-size: 2em;'>{ocean_plastic:,.0f} kg</span>",
+                unsafe_allow_html=True
             )
-            st.markdown(f"≈ {ocean_to_statues:,.0f} Statues of Liberty")
+            st.markdown(f"<span style='color: green; font-size: 1.2em;'>≈{ocean_to_statues:,.0f} Statues of Liberty</span>", unsafe_allow_html=True)
 
             # Microplastic ingested today
             st.metric(
                 "Microplastic ingested today",
-                f"{microplastic:,.0f} mg"
+                f"<span style='font-size: 2em;'>{microplastic:,.0f} mg</span>",
+                unsafe_allow_html=True
             )
-            st.markdown(f"≈ {credit_card_equiv:.0f}% credit card in a week")
+            st.markdown(f"<span style='color: green; font-size: 1.2em;'>≈{credit_card_equiv:.0f}% credit card in a week</span>", unsafe_allow_html=True)
 
 
         time.sleep(UPDATE_INTERVAL_SEC)
