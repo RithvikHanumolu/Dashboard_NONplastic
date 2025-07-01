@@ -96,8 +96,7 @@ def emissions_so_far(now: datetime, total_today: float) -> float:
 # --- Streamlit app main -----------------------------------------------------
 
 def main():
-    def main():
-        st.title("Environmental Dashboard — Live Statistics")
+    st.title("Environmental Dashboard — Live Statistics")
 
     @st.cache_data(ttl=SECONDS_PER_DAY)
     def get_emissions_total():
@@ -115,42 +114,72 @@ def main():
 
         # Calculate values
         ha_lost = hectares_lost_so_far(now)
-        ha_to_washdc = (ha_lost / 1500) * 365
+        ha_to_washdc = (ha_lost / 1500) * 365 # This delta calculation seems to be for annual percentage of Washington DC
 
         plastic_produced = plastic_produced_so_far(now)
-        plastic_to_cars = plastic_produced / 1500
+        plastic_to_cars = plastic_produced / 1500 # Assuming 1500 kg per car for comparison
 
         ocean_plastic = ocean_plastic_entered_so_far(now)
-        ocean_to_statues = ocean_plastic / 204116
+        ocean_to_statues = ocean_plastic / 204116 # Assuming 204116 kg per Statue of Liberty for comparison
 
         microplastic = microplastic_ingested_so_far(now)
-        credit_card_equiv = ((microplastic / 5000) * 7) * 100
+        # This delta calculation seems to be for percentage of a credit card per week
+        # 5000 mg is roughly the weight of a credit card
+        # 7 days in a week
+        credit_card_equiv = ((microplastic / 5000) / (time_elapsed_seconds(now) / SECONDS_PER_DAY * 7)) * 100 if time_elapsed_seconds(now) > 0 else 0
 
         acres_lost = acres_lost_so_far(now)
-        acres_to_football = acres_lost / 1.32
+        acres_to_football = acres_lost / 1.32 # Assuming 1.32 acres per football field for comparison
 
         co2_emitted = emissions_so_far(now, total_today_emissions)
-        pyramids = co2_emitted / 5_750_000
+        pyramids = co2_emitted / 5_750_000 # Assuming 5,750,000 tons for Great Pyramid of Giza for comparison
 
         # Re-render metrics without reloading page
-        #with placeholder.container():
-            #st.metric("Land lost today (hectares)", f"{ha_lost:,.0f} ha", delta=f"~{ha_to_washdc:.0f}% Washington DC per year")
-            #st.metric("Plastic produced today (kilograms)", f"{plastic_produced:,.0f} kg", delta=f"~{plastic_to_cars:,.0f} cars worth")
-            #st.metric("Plastic entered ocean today (kilograms)", f"{ocean_plastic:,.0f} kg", delta=f"~{ocean_to_statues:,.0f} Statues of Liberty")
-            #st.metric("Microplastic ingested today (mg)", f"{microplastic:,.0f} mg", delta=f"~{credit_card_equiv:.0f}% credit card/week")
-            #st.metric("Forest lost today (acres)", f"{acres_lost:,.0f} acres", delta=f"~{k_format(acres_to_football)} football fields")
-            #st.metric("CO₂ emitted today (metric tons)", f"{co2_emitted:,.0f} t CO₂", delta=f"~{k_format(pyramids)} Great Pyramids of Giza")
-
         with placeholder.container():
-            #st.metric("Plastic produced today", f"{plastic_produced:,.0f} kg", delta=f"≈ {plastic_to_cars:,.0f} cars")
-            #st.metric("Plastic entered ocean today", f"{ocean_plastic:,.0f} kg", delta=f"≈ {ocean_to_statues:,.0f} Statues of Liberty")
-            #st.metric("Microplastic ingested today", f"{microplastic:,.0f} mg", delta=f"≈ {credit_card_equiv:.0f}% credit card in a week")
-            st.metric("Forest lost today", f"{acres_lost:,.0f} acres", delta=f"≈ {k_format(acres_to_football)} football fields")
-            st.metric("CO₂ emitted today", f"{co2_emitted:,.0f} t CO₂", delta=f"≈ {k_format(pyramids)} Great Pyramids of Giza")
-            st.metric("Land lost today", f"{ha_lost:,.0f} ha", delta=f"≈ {ha_to_washdc:.0f}% Washington DC per year")
+            # Forest lost today
+            st.metric(
+                "Forest lost today",
+                f"{acres_lost:,.0f} acres"
+            )
+            st.markdown(f"≈ {k_format(acres_to_football)} football fields")
+
+            # CO₂ emitted today
+            st.metric(
+                "CO₂ emitted today",
+                f"{co2_emitted:,.0f} t CO₂"
+            )
+            st.markdown(f"≈ {k_format(pyramids)} Great Pyramids of Giza")
+
+            # Land lost today
+            st.metric(
+                "Land lost today",
+                f"{ha_lost:,.0f} ha"
+            )
+            st.markdown(f"≈ {ha_to_washdc:.0f}% Washington DC per year")
+
+            # Plastic produced today
+            st.metric(
+                "Plastic produced today",
+                f"{plastic_produced:,.0f} kg"
+            )
+            st.markdown(f"≈ {plastic_to_cars:,.0f} cars")
+
+            # Plastic entered ocean today
+            st.metric(
+                "Plastic entered ocean today",
+                f"{ocean_plastic:,.0f} kg"
+            )
+            st.markdown(f"≈ {ocean_to_statues:,.0f} Statues of Liberty")
+
+            # Microplastic ingested today
+            st.metric(
+                "Microplastic ingested today",
+                f"{microplastic:,.0f} mg"
+            )
+            st.markdown(f"≈ {credit_card_equiv:.0f}% credit card in a week")
 
 
-            time.sleep(UPDATE_INTERVAL_SEC)
+        time.sleep(UPDATE_INTERVAL_SEC)
 
 
 if __name__ == "__main__":
