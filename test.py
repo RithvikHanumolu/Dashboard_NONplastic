@@ -31,6 +31,9 @@ ITALY_2023_ANNUAL_CO2_MILLION_METRIC_TONS = 312.67
 ITALY_2023_ANNUAL_CO2_METRIC_TONS = ITALY_2023_ANNUAL_CO2_MILLION_METRIC_TONS * 1_000_000
 ITALY_2023_DAILY_CO2_METRIC_TONS = int(ITALY_2023_ANNUAL_CO2_METRIC_TONS / 365)
 
+# Weight of the Great Pyramid of Giza in metric tons (approximate)
+GREAT_PYRAMID_WEIGHT_METRIC_TONS = 5_750_000
+
 
 # --- Font Loader ------------------------------------------------------------
 def load_woff_font_base64(path):
@@ -120,6 +123,15 @@ def main():
         .metric-label {{ color: white; font-size: 1.5em; margin-bottom: 5px; }}
         .metric-value {{ color: white; font-size: 3em; font-weight: bold; margin-bottom: 5px; }}
         .metric-comparison {{ color: #70c38B; font-size: 1.8em; margin-top: 0px; }}
+        .bottom-left {{
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            z-index: 1000;
+        }}
+        /* Removed .centered-image class */
         </style>
     """, unsafe_allow_html=True)
 
@@ -151,7 +163,8 @@ def main():
         acres_to_football = acres_lost / 1.32
 
         co2_emitted = emissions_so_far(now, total_today_emissions)
-        comparison_ratio = co2_emitted / ITALY_2023_DAILY_CO2_METRIC_TONS if ITALY_2023_DAILY_CO2_METRIC_TONS > 0 else 0.0
+        # Calculate comparison to Great Pyramids of Egypt, now as a whole number
+        pyramid_comparison = co2_emitted / GREAT_PYRAMID_WEIGHT_METRIC_TONS if GREAT_PYRAMID_WEIGHT_METRIC_TONS > 0 else 0.0
 
         with placeholder.container():
             col1, col2, col3 = st.columns(3)
@@ -164,15 +177,19 @@ def main():
                         <p class="metric-comparison">≈{k_format(acres_to_football)} football fields</p>
                     </div>
                 """, unsafe_allow_html=True)
+                # Reverted to st.image directly
+                st.image("Frame 19.png", width=350)
 
             with col2:
                 st.markdown(f"""
                     <div class="metric-block">
                         <p class="metric-label">CO₂ emitted today</p>
                         <p class="metric-value">{co2_emitted:,.0f} t CO₂</p>
-                        <p class="metric-comparison">≈{comparison_ratio:.1f}x Italy's CO₂ emissions</p>
+                        <p class="metric-comparison">≈{pyramid_comparison:.0f}x Great Pyramid of Giza</p>
                     </div>
                 """, unsafe_allow_html=True)
+                # Reverted to st.image directly
+                st.image("Frame 21.png", width=350)
 
             with col3:
                 st.markdown(f"""
@@ -182,17 +199,11 @@ def main():
                         <p class="metric-comparison">≈{ha_to_washdc:.0f}% Washington DC/year</p>
                     </div>
                 """, unsafe_allow_html=True)
+                # Reverted to st.image directly
+                st.image("Frame 22.png", width=350)
 
             st.markdown(f"""
-                <div style="
-                    position: fixed;
-                    bottom: 10px;
-                    left: 10px;
-                    color: white;
-                    font-size: 1.3em;
-                    font-weight: bold;
-                    z-index: 1000;
-                ">
+                <div class="bottom-left">
                     Running Time: {running_hours} hours
                 </div>
             """, unsafe_allow_html=True)
