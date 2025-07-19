@@ -34,6 +34,9 @@ ITALY_2023_DAILY_CO2_METRIC_TONS = int(ITALY_2023_ANNUAL_CO2_METRIC_TONS / 365)
 # Weight of the Great Pyramid of Giza in metric tons (approximate)
 GREAT_PYRAMID_WEIGHT_METRIC_TONS = 5_750_000
 
+# Area of the White House and its grounds in hectares (approximate, from search)
+WHITE_HOUSE_AREA_HA = 7.3
+
 
 # --- Font Loader ------------------------------------------------------------
 def load_woff_font_base64(path):
@@ -152,7 +155,8 @@ def main():
         running_hours = int(elapsed_seconds // 3600)
 
         ha_lost = hectares_lost_so_far(now)
-        ha_to_washdc = (ha_lost / 1500) * 365
+        # Calculate comparison to White House area
+        white_house_comparison = ha_lost / WHITE_HOUSE_AREA_HA if WHITE_HOUSE_AREA_HA > 0 else 0.0
 
         plastic_produced = plastic_produced_so_far(now)
         ocean_plastic = ocean_plastic_entered_so_far(now)
@@ -196,7 +200,7 @@ def main():
                     <div class="metric-block">
                         <p class="metric-label">Land lost today</p>
                         <p class="metric-value">{ha_lost:,.0f} hectares</p>
-                        <p class="metric-comparison">≈{ha_to_washdc:.0f}% Washington DC/year</p>
+                        <p class="metric-comparison">≈{white_house_comparison:.0f}x White House</p>
                     </div>
                 """, unsafe_allow_html=True)
                 # Reverted to st.image directly
